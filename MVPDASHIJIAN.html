@@ -1,243 +1,59 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MVP FAMILY 月度海报</title>
-  <style>
-    :root{
-      --cardRadius: 22px;
-      --shadow: 0 22px 60px rgba(0,0,0,.22);
-      --stroke: rgba(255,255,255,.55);
-      --text: rgba(20,24,32,.92);
-      --muted: rgba(20,24,32,.62);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      font-family: "PingFang SC","Microsoft YaHei",system-ui,-apple-system,Arial,sans-serif;
-      color: var(--text);
-      overflow-x:hidden;
-      /* 欢快、鲜艳但不刺眼的背景 */
-      background:
-        radial-gradient(900px 520px at 15% 10%, rgba(255,111,145,.55), transparent 60%),
-        radial-gradient(900px 520px at 85% 15%, rgba(102,224,255,.55), transparent 60%),
-        radial-gradient(1000px 620px at 50% 90%, rgba(122,243,199,.58), transparent 62%),
-        linear-gradient(135deg, #7be0ff 0%, #7af3c7 40%, #ffd36e 100%);
-    }
+<title>MVP FAMILY</title>
 
-    /* 轻量动态：只动背景光斑位置（性能友好） */
-    .bg-orbs{
-      position: fixed;
-      inset: -20%;
-      pointer-events:none;
-      filter: blur(25px);
-      opacity: .55;
-      z-index: 0;
-    }
-    .orb{
-      position:absolute;
-      width: 42vmin;
-      height: 42vmin;
-      border-radius: 50%;
-      mix-blend-mode: overlay;
-      animation: float 10s ease-in-out infinite;
-      transform: translate3d(0,0,0);
-    }
-    .orb:nth-child(1){ left: 8%; top: 10%; background: rgba(255, 77, 128, .55); animation-duration: 11s; }
-    .orb:nth-child(2){ right: 10%; top: 14%; background: rgba(64, 200, 255, .55); animation-duration: 13s; }
-    .orb:nth-child(3){ left: 30%; bottom: 6%; background: rgba(115, 255, 196, .55); animation-duration: 12s; }
-    @keyframes float{
-      0%,100%{ transform: translate3d(0,0,0) scale(1); }
-      50%{ transform: translate3d(0,-18px,0) scale(1.04); }
-    }
+<style>
 
-    .wrap{
-      position: relative;
-      z-index: 1;
-      min-height: 100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 22px 16px;
-    }
+body{
+margin:0;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:"PingFang SC","Microsoft YaHei",sans-serif;
 
-    /* 顶部小角标（可删，但很“高级”） */
-    .corner-badge{
-      position: fixed;
-      top: 14px;
-      left: 14px;
-      z-index: 2;
-      padding: 10px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.55);
-      border: 1px solid rgba(255,255,255,.75);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 10px 28px rgba(0,0,0,.10);
-      font-weight: 800;
-      font-size: 12px;
-      letter-spacing: .3px;
-      color: rgba(20,24,32,.78);
-    }
+/* 鲜艳背景 */
+background:
+radial-gradient(circle at 20% 20%, #ff7aa2 0%, transparent 40%),
+radial-gradient(circle at 80% 20%, #6edcff 0%, transparent 40%),
+radial-gradient(circle at 50% 90%, #7af3c7 0%, transparent 45%),
+linear-gradient(135deg,#7be0ff,#7af3c7,#ffd36e);
+}
 
-    /* 海报卡片：玻璃拟态 + 细边框 + 柔阴影 */
-    .card{
-      width: min(560px, 92vw);
-      border-radius: var(--cardRadius);
-      background: rgba(255,255,255,.55);
-      border: 1px solid rgba(255,255,255,.75);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      overflow:hidden;
-      transform: translate3d(0,0,0);
-    }
+/* 海报卡片 */
 
-    /* 顶部细致 Header（不复杂，但很有质感） */
-    .card-header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      padding: 14px 16px 10px;
-      border-bottom: 1px solid rgba(255,255,255,.55);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.30));
-    }
+.poster{
+width:92%;
+max-width:520px;
+background:rgba(255,255,255,0.55);
+padding:14px;
+border-radius:20px;
+backdrop-filter: blur(15px);
+box-shadow:0 20px 50px rgba(0,0,0,0.2);
+}
 
-    .title{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-      min-width: 0;
-    }
-    .logo{
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      background:
-        radial-gradient(16px 16px at 30% 30%, rgba(255,255,255,.85), rgba(255,255,255,0) 60%),
-        linear-gradient(135deg, rgba(255,111,145,.9), rgba(102,224,255,.9));
-      box-shadow: 0 10px 20px rgba(0,0,0,.10);
-      flex: 0 0 auto;
-    }
-    .title-text{
-      display:flex;
-      flex-direction:column;
-      gap: 2px;
-      min-width:0;
-    }
-    .title-text .main{
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: .2px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .title-text .sub{
-      font-size: 12px;
-      color: var(--muted);
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .chip{
-      font-size: 12px;
-      font-weight: 900;
-      padding: 8px 10px;
-      border-radius: 999px;
-      color: rgba(20,24,32,.76);
-      background: rgba(255,255,255,.65);
-      border: 1px solid rgba(255,255,255,.85);
-      box-shadow: 0 10px 22px rgba(0,0,0,.08);
-      white-space:nowrap;
-    }
+/* 海报图片 */
 
-    /* 海报区域：有“画廊框”的高级感 */
-    .poster-frame{
-      padding: 14px;
-      background:
-        radial-gradient(900px 360px at 20% 0%, rgba(255,111,145,.16), transparent 58%),
-        radial-gradient(800px 420px at 90% 10%, rgba(102,224,255,.16), transparent 60%),
-        radial-gradient(900px 520px at 50% 110%, rgba(122,243,199,.18), transparent 60%),
-        rgba(255,255,255,.18);
-    }
-    .poster-shell{
-      border-radius: 18px;
-      background: rgba(255,255,255,.45);
-      border: 1px solid rgba(255,255,255,.75);
-      box-shadow: 0 18px 50px rgba(0,0,0,.12);
-      overflow:hidden;
-    }
+.poster img{
+width:100%;
+border-radius:12px;
+display:block;
+}
 
-    img{
-      width:100%;
-      height:auto;
-      display:block;
-      /* 加一点点对比/饱和，让海报更“亮” */
-      filter: saturate(1.06) contrast(1.02);
-      transform: translateZ(0);
-    }
-
-    /* 页脚小提示（可删） */
-    .card-footer{
-      padding: 10px 16px 14px;
-      color: rgba(20,24,32,.60);
-      font-size: 12px;
-      display:flex;
-      justify-content:space-between;
-      gap: 10px;
-      flex-wrap:wrap;
-    }
-    .card-footer b{ color: rgba(20,24,32,.82); }
-
-    /* 减少动画：尊重系统设置 */
-    @media (prefers-reduced-motion: reduce){
-      .orb{ animation: none; }
-    }
-  </style>
+</style>
 </head>
 
 <body>
-  <!-- 背景光斑（性能友好） -->
-  <div class="bg-orbs" aria-hidden="true">
-    <div class="orb"></div>
-    <div class="orb"></div>
-    <div class="orb"></div>
-  </div>
 
-  <!-- 左上角小角标（可删） -->
-  <div class="corner-badge">MVP FAMILY · MONTHLY POSTER</div>
+<div class="poster">
 
-  <div class="wrap">
-    <section class="card" aria-label="月度海报展示">
-      <div class="card-header">
-        <div class="title">
-          <div class="logo" aria-hidden="true"></div>
-          <div class="title-text">
-            <div class="main">月度宣传海报</div>
-            <div class="sub">简单展示 · 适配手机 · 玻璃质感</div>
-          </div>
-        </div>
-        <div class="chip">当前：3月</div>
-      </div>
+<img src="MVPdashijian03.JPEG">
 
-      <div class="poster-frame">
-        <div class="poster-shell">
-          <!-- ✅ 每月只需要改这一行的图片路径即可 -->
-          <img src="poster.jpg" alt="月度宣传海报" />
-        </div>
-      </div>
+</div>
 
-      <div class="card-footer">
-        <div>海报文件建议命名：<b>poster.jpg</b></div>
-        <div>更新方式：每月覆盖同名文件即可</div>
-      </div>
-    </section>
-  </div>
 </body>
 </html>
